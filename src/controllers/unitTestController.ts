@@ -3,8 +3,6 @@ import { generateUnitTests } from '../services/genaiService';
 
 export async function generateUnitTestCases(req: Request, res: Response) {
   const { code, language } = req.body;
-  console.log('Received code:', code);
-  console.log('Received language:', language);
   try {
     const testCases = await generateUnitTests(code, language);
     res.json({ testCases });

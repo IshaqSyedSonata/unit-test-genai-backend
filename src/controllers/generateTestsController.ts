@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { generateUnitTests } from "../services/openaiService";
+import { generateUnitTests } from "../services/genaiService";
 import { validateCode } from "../utils/validateCode";
 
 export const generateTestsController = async (req: Request, res: Response) => {
@@ -13,6 +13,7 @@ export const generateTestsController = async (req: Request, res: Response) => {
     const result = await generateUnitTests(code, language);
     res.json({ tests: result });
   } catch (error) {
-    res.status(500).json({ error: "Failed to generate unit tests" });
+    console.error('Error in generateUnitTests:', error);
+    res.status(500).json({ error: error });
   }
 };

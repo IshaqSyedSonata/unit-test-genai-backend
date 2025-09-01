@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import generateTestsRoute from "./routes/generateTests";
 
 dotenv.config();
@@ -7,6 +8,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 app.use("/generate-tests", generateTestsRoute);
 
