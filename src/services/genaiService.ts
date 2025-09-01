@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import { generateMockUnitTests } from "../utils/mockOpenAI";
 
 dotenv.config();
 
@@ -8,7 +9,7 @@ const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
 
 export const generateUnitTests = async (
   code: string,
-  language: string
+  language: 'python' | 'java' | 'csharp'
 ): Promise<string> => {
   
   const prompt = `Generate unit test cases for the following ${language} code:\n\n${code}`;
@@ -20,7 +21,7 @@ export const generateUnitTests = async (
     const response = await axios.post(
       OPENAI_API_URL,
       {
-        model: "o4-mini",
+        model: "gpt-5",
         messages: [
           {
             role: "system",
@@ -40,6 +41,11 @@ export const generateUnitTests = async (
 
     return response.data.choices[0].message?.content ;
   } catch (error: any) {
+    const quotaError = error?.response?.data?.error?.code === "insufficient_quota";
+    if (quotaError) {
+      // Return mock response if quota exceeded
+      return generateMockUnitTests(code, language);
+    }
     return error.response?.data || { error: error.message };
   }
 };
