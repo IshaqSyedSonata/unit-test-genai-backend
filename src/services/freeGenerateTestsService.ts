@@ -7,7 +7,7 @@ dotenv.config();
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
 
-export const generateUnitTests = async (
+export const freeGenerateUnitTests = async (
   code: string,
   language: 'python' | 'java' | 'csharp'
 ): Promise<string> => {
