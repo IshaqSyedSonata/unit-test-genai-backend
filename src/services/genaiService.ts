@@ -21,13 +21,18 @@ export const generateUnitTests = async (
     const response = await axios.post(
       OPENAI_API_URL,
       {
-        model: "gpt-5",
+        model: "gpt-4o", // Changed from "gpt-5" as it's not a valid model yet.
         messages: [
           {
             role: "system",
             content: "You are a helpful assistant that writes unit tests.",
           },
           { role: "user", content: prompt },
+          // You can add more prompts here. For example:
+          {
+            role: "user",
+            content: "Please include tests for edge cases and invalid inputs.",
+          },
         ],
         temperature: 0.2,
       },
