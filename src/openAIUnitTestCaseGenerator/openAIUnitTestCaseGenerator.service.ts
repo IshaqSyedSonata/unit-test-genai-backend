@@ -46,6 +46,7 @@ export const openAIUnitTestCaseGenerator = async (
   } catch (error: any) {
     const quotaError =
       error?.response?.data?.error?.code === "insufficient_quota" ||
+      error?.response?.data?.error?.code === "credit_balance_exhausted" ||
       error?.response?.data?.error?.code === "invalid_api_key";
     if (quotaError) {
       return generateMockUnitTests(code, language);

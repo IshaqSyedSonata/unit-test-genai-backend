@@ -1,21 +1,26 @@
 export type SupportedLanguage = "python" | "java" | "csharp" | "node";
 
-export interface OpenAIUnitTestCaseGeneratorRequest {
+export interface CursorUnitTestCaseGeneratorRequest {
   code: string;
   language: SupportedLanguage | string;
 }
 
-export interface OpenAIUnitTestCaseGeneratorResponse {
+export interface CursorUnitTestCaseGeneratorResponse {
   tests: string | { error?: string | { message?: string } };
 }
 
-export interface OpenAIUnitTestCaseGeneratorErrorResponse {
+export interface CursorUnitTestCaseGeneratorErrorResponse {
   error: string | unknown;
 }
 
-const SUPPORTED_LANGUAGES: SupportedLanguage[] = ["python", "java", "csharp", "node"];
+const SUPPORTED_LANGUAGES: SupportedLanguage[] = [
+  "python",
+  "java",
+  "csharp",
+  "node",
+];
 
-export const isValidOpenAIUnitTestCaseRequest = (
+export const isValidCursorUnitTestCaseRequest = (
   code: unknown,
   language: unknown
 ): code is string => {

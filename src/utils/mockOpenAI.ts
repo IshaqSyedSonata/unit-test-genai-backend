@@ -1,5 +1,5 @@
 // src/utils/mockOpenAI.ts
-export async function generateMockUnitTests(code: string, language: 'python' | 'java' | 'csharp') {
+export async function generateMockUnitTests(code: string, language: 'python' | 'java' | 'csharp' | 'node') {
   return `
 # Mock Unit Test Cases for ${language.toUpperCase()} Code
 

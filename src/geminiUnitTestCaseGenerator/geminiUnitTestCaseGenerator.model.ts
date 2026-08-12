@@ -1,4 +1,4 @@
-export type SupportedLanguage = "python" | "java" | "csharp";
+export type SupportedLanguage = "python" | "java" | "csharp" | "node";
 
 export interface GeminiUnitTestCaseGeneratorRequest {
   code: string;
@@ -13,7 +13,7 @@ export interface GeminiUnitTestCaseGeneratorErrorResponse {
   error: string | unknown;
 }
 
-const SUPPORTED_LANGUAGES: SupportedLanguage[] = ["python", "java", "csharp"];
+const SUPPORTED_LANGUAGES: SupportedLanguage[] = ["python", "java", "csharp", "node"];
 
 export const isValidGeminiUnitTestCaseRequest = (
   code: unknown,
