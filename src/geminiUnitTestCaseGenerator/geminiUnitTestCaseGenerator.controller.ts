@@ -1,28 +1,26 @@
 import { Request, Response } from "express";
-import { geminiUnitTestCaseGenerator } from "./geminiUnitTestCaseGenerator.service";
+import { generate as generateUnitTests } from "./geminiUnitTestCaseGenerator.service";
 import {
-  isValidGeminiUnitTestCaseRequest,
+  isValidRequest,
   SupportedLanguage,
 } from "./geminiUnitTestCaseGenerator.model";
 
-export const geminiUnitTestCaseGeneratorController = async (
-  req: Request,
-  res: Response
-) => {
+export const generate = async (req: Request, res: Response): Promise<void> => {
   const { code, language } = req.body;
 
-  if (!isValidGeminiUnitTestCaseRequest(code, language)) {
-    return res.status(400).json({ error: "Invalid code or language" });
+  if (!isValidRequest(code, language)) {
+    res.status(400).json({ error: "Invalid code or language" });
+    return;
   }
 
   try {
-    const result = await geminiUnitTestCaseGenerator(
+    const result = await generateUnitTests(
       code,
       language.toLowerCase() as SupportedLanguage
     );
     res.json({ tests: result });
   } catch (error) {
     console.error("Error in geminiUnitTestCaseGenerator:", error);
-    res.status(500).json({ error: error });
+    res.status(500).json({ error });
   }
 };

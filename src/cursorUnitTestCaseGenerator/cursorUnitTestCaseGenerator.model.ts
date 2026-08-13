@@ -13,14 +13,14 @@ export interface CursorUnitTestCaseGeneratorErrorResponse {
   error: string | unknown;
 }
 
-const SUPPORTED_LANGUAGES: SupportedLanguage[] = [
+export const SUPPORTED_LANGUAGES: SupportedLanguage[] = [
   "python",
   "java",
   "csharp",
   "node",
 ];
 
-export const isValidCursorUnitTestCaseRequest = (
+export const isValidRequest = (
   code: unknown,
   language: unknown
 ): code is string => {

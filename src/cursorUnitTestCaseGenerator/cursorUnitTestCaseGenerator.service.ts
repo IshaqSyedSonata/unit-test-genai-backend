@@ -1,18 +1,18 @@
 import { Agent, CursorAgentError } from "@cursor/sdk";
 import dotenv from "dotenv";
-import { generateMockUnitTests } from "../utils/mockOpenAI";
+import { MockOpenAI } from "../utils/mockOpenAI";
 import { SupportedLanguage } from "./cursorUnitTestCaseGenerator.model";
 
 dotenv.config();
 
-const CURSOR_API_KEY = process.env.CURSOR_API_KEY;
-const CURSOR_MODEL = process.env.CURSOR_MODEL || "composer-2.5";
+const apiKey = process.env.CURSOR_API_KEY;
+const model = process.env.CURSOR_MODEL || "composer-2.5";
 
-export const cursorUnitTestCaseGenerator = async (
+export const generate = async (
   code: string,
   language: SupportedLanguage
 ): Promise<string | { error: string }> => {
-  if (!CURSOR_API_KEY) {
+  if (!apiKey) {
     throw new Error("Cursor API key not set");
   }
 
@@ -30,8 +30,8 @@ export const cursorUnitTestCaseGenerator = async (
 
   try {
     const result = await Agent.prompt(prompt, {
-      apiKey: CURSOR_API_KEY,
-      model: { id: CURSOR_MODEL },
+      apiKey,
+      model: { id: model },
       local: { cwd: process.cwd() },
     });
 
@@ -42,7 +42,7 @@ export const cursorUnitTestCaseGenerator = async (
         codeHint.includes("auth") ||
         /invalid.?api.?key|unauthorized|401/i.test(message)
       ) {
-        return generateMockUnitTests(code, language);
+        return MockOpenAI.generateUnitTests(code, language);
       }
       return { error: message };
     }
@@ -57,9 +57,9 @@ export const cursorUnitTestCaseGenerator = async (
       const message = error.message || "Cursor agent failed to start";
       if (
         /invalid.?api.?key|unauthorized|401|auth/i.test(message) ||
-        !CURSOR_API_KEY
+        !apiKey
       ) {
-        return generateMockUnitTests(code, language);
+        return MockOpenAI.generateUnitTests(code, language);
       }
       return { error: message };
     }

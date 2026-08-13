@@ -1,8 +1,10 @@
-import express from "express";
-import { cursorUnitTestCaseGeneratorController } from "./cursorUnitTestCaseGenerator.controller";
+import { Router } from "express";
+import { generate } from "./cursorUnitTestCaseGenerator.controller";
 
-const router = express.Router();
+const createCursorUnitTestCaseGeneratorRouter = (): Router => {
+  const expressRouter = Router();
+  expressRouter.post("/", generate);
+  return expressRouter;
+};
 
-router.post("/", cursorUnitTestCaseGeneratorController);
-
-export default router;
+export default createCursorUnitTestCaseGeneratorRouter();

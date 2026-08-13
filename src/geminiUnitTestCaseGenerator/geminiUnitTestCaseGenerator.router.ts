@@ -1,8 +1,10 @@
-import express from "express";
-import { geminiUnitTestCaseGeneratorController } from "./geminiUnitTestCaseGenerator.controller";
+import { Router } from "express";
+import { generate } from "./geminiUnitTestCaseGenerator.controller";
 
-const router = express.Router();
+const createGeminiUnitTestCaseGeneratorRouter = (): Router => {
+  const expressRouter = Router();
+  expressRouter.post("/", generate);
+  return expressRouter;
+};
 
-router.post("/", geminiUnitTestCaseGeneratorController);
-
-export default router;
+export default createGeminiUnitTestCaseGeneratorRouter();

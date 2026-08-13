@@ -1,8 +1,10 @@
-import express from "express";
-import { openAIUnitTestCaseGeneratorController } from "./openAIUnitTestCaseGenerator.controller";
+import { Router } from "express";
+import { generate } from "./openAIUnitTestCaseGenerator.controller";
 
-const router = express.Router();
+const createOpenAIUnitTestCaseGeneratorRouter = (): Router => {
+  const expressRouter = Router();
+  expressRouter.post("/", generate);
+  return expressRouter;
+};
 
-router.post("/", openAIUnitTestCaseGeneratorController);
-
-export default router;
+export default createOpenAIUnitTestCaseGeneratorRouter();

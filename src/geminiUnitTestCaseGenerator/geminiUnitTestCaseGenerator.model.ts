@@ -13,9 +13,14 @@ export interface GeminiUnitTestCaseGeneratorErrorResponse {
   error: string | unknown;
 }
 
-const SUPPORTED_LANGUAGES: SupportedLanguage[] = ["python", "java", "csharp", "node"];
+export const SUPPORTED_LANGUAGES: SupportedLanguage[] = [
+  "python",
+  "java",
+  "csharp",
+  "node",
+];
 
-export const isValidGeminiUnitTestCaseRequest = (
+export const isValidRequest = (
   code: unknown,
   language: unknown
 ): code is string => {

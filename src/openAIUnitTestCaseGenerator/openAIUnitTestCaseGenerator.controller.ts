@@ -1,28 +1,26 @@
 import { Request, Response } from "express";
-import { openAIUnitTestCaseGenerator } from "./openAIUnitTestCaseGenerator.service";
+import { generate as generateUnitTests } from "./openAIUnitTestCaseGenerator.service";
 import {
-  isValidOpenAIUnitTestCaseRequest,
+  isValidRequest,
   SupportedLanguage,
 } from "./openAIUnitTestCaseGenerator.model";
 
-export const openAIUnitTestCaseGeneratorController = async (
-  req: Request,
-  res: Response
-) => {
+export const generate = async (req: Request, res: Response): Promise<void> => {
   const { code, language } = req.body;
 
-  if (!isValidOpenAIUnitTestCaseRequest(code, language)) {
-    return res.status(400).json({ error: "Invalid code or language" });
+  if (!isValidRequest(code, language)) {
+    res.status(400).json({ error: "Invalid code or language" });
+    return;
   }
 
   try {
-    const result = await openAIUnitTestCaseGenerator(
+    const result = await generateUnitTests(
       code,
       language.toLowerCase() as SupportedLanguage
     );
     res.json({ tests: result });
   } catch (error) {
     console.error("Error in openAIUnitTestCaseGenerator:", error);
-    res.status(500).json({ error: error });
+    res.status(500).json({ error });
   }
 };

@@ -1,6 +1,9 @@
-// src/utils/mockOpenAI.ts
-export async function generateMockUnitTests(code: string, language: 'python' | 'java' | 'csharp' | 'node') {
-  return `
+export class MockOpenAI {
+  static async generateUnitTests(
+    code: string,
+    language: "python" | "java" | "csharp" | "node"
+  ): Promise<string> {
+    return `
 # Mock Unit Test Cases for ${language.toUpperCase()} Code
 
 def test_addition():
@@ -9,4 +12,5 @@ def test_addition():
 def test_subtraction():
     assert subtract(5, 2) == 3
 `;
+  }
 }
